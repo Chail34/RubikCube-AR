@@ -134,6 +134,7 @@ Packages/packages-lock.json linguist-generated
 *.rar                   lfs
 *.tar                   lfs
 *.zip                   lfs
+*.tgz                   lfs
 
 # Compiled Dynamic Library
 *.dll                   lfs
