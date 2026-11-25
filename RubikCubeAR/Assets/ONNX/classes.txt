@@ -1,0 +1,8 @@
+Blue
+Green
+Orange
+Red
+White
+Yellow
+cube face
+side_face

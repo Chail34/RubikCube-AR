@@ -1,6 +1,10 @@
+using System.IO;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Vuforia;
+using UnityEngine.UI;
+using UnityEngine.InputSystem;
 
 public enum CubeColor { White, Yellow, Red, Orange, Green, Blue, Unknown }
 
@@ -20,6 +24,10 @@ public class CubeFaceDetector : MonoBehaviour
                                        Vector3.down, Vector3.forward, Vector3.back };
     Texture2D camTex;
 
+    public RawImage image ;
+
+    long counter = 0 ;
+
     void Start()
     {
         VuforiaApplication.Instance.OnVuforiaStarted += () =>
@@ -28,6 +36,7 @@ public class CubeFaceDetector : MonoBehaviour
 
     void Update()
     {
+        counter++ ;
         Detected.Clear();
         if (modelTarget == null || modelTarget.TargetStatus.Status != Status.TRACKED) return;
 
@@ -57,6 +66,14 @@ public class CubeFaceDetector : MonoBehaviour
             if (Detected.ContainsKey(col)) { Detected.Clear(); return; } // même couleur 2 fois : frame rejetée
             Detected[col] = a;
         }
+
+        // Pour faire une capture de la caméra
+        // if (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame)
+        // {
+        //     var bytes = camTex.EncodeToPNG() ;
+        //     File.WriteAllBytes("C:/Users/ruzik/Desktop/Cours/RubikCube-AR/RubikCubeAR/Assets/Images/out/"+counter+".png", bytes);
+        //     print("===== Capture d'écran effectuée =====");
+        // }
     }
 
     Color SamplePatch(int cx, int cy)
@@ -74,8 +91,12 @@ public class CubeFaceDetector : MonoBehaviour
 
     static CubeColor Classify(Color c)
     {
+        Texture2D white = Resources.Load<Texture2D>("Assets/Images/cubeColors/white.png");
+
+
         Color.RGBToHSV(c, out float h, out float s, out float v);
-        if (v < 0.2f) return CubeColor.Unknown;              // plastique noir / ombre
+        // RGBtoHSL(c, out float h, out float s, out float l);
+        if (v < 0.2f) return CubeColor.Unknown;
         if (s < 0.2f) return v > 0.6f ? CubeColor.White : CubeColor.Unknown;
         h *= 360f;
         if (h < 15f || h > 340f) return CubeColor.Red;
@@ -84,5 +105,16 @@ public class CubeFaceDetector : MonoBehaviour
         if (h < 170f) return CubeColor.Green;
         if (h < 260f) return CubeColor.Blue;
         return CubeColor.Unknown;
+    }
+
+
+    static void RGBtoHSL(Color c, out float h, out float s, out float l){
+
+        Color.RGBToHSV(c, out h, out s, out float v);
+
+        l = v*(1-(s/2)) ;
+
+        if(l==1 || l==0){s = 0 ;}
+        else{s = (v-l)/Math.Min(l, 1-l) ;}
     }
 }

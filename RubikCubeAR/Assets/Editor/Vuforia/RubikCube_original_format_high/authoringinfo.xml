@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<QCARInfo>
+    <TargetSet version="36.0" toolVersion="v7.4.4">
+        <ModelTarget name="RubikCube_original_format_high" targetId="56b4099c269944f2befd672ee7b05a9f" version="14.0" toolVersion="v7.4.4" bbox="-0.0281556 -0.0287505 -0.0282336 0.02873 0.0281351 0.0286527" trackingMode="car" upVector="0.0 1.0 0.0" optimizeTrackingFor="low_feature_objects" realisticTextures="no" />
+    </TargetSet>
+    <Assembly name="RubikCube_original_format_high" assemblyId="82379892665149818bff077cb1606999">
+        <Part name="RubikCube_original_format_high" translation="0 0 0" rotation="AD: 0 0 1 0" />
+        <EntryPoint name="(none)" trained="yes" />
+    </Assembly>
+</QCARInfo>
